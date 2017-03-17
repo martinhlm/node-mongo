@@ -33,7 +33,11 @@ dishRouter.route('/')
 })
 
 .delete(function(req, res, next) {
-        res.end('Deleting all dishes');
+    Dishes.remove({}, function (err, resp) {
+        if (err) throw err;
+
+        res.json(resp);
+    });
 });
 
 
