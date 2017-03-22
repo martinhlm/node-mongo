@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var schema = mongoose.Schema
+var Schema = mongoose.Schema
 
 var leadersSchema = new Schema({
         name: {
@@ -20,6 +20,6 @@ var leadersSchema = new Schema({
         }
 })
 
-var Leaders = mongoose.model('Promotions', leadersSchema)
+var Leaders = mongoose.model('Leadership', leadersSchema)
 
-module.exports = Promotions
+module.exports = Leaders
