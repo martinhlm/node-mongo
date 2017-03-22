@@ -63,7 +63,9 @@ dishRouter.route('/:dishId')
 })
 
 .delete(function(req, res, next) {
-    
+    Dishes.findByIdAndRemove(req.params.dishId, function (err, resp) {        if (err) throw err;
+        res.json(resp);
+    });
 });
 
 
