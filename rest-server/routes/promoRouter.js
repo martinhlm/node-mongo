@@ -1,48 +1,73 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
-var promoRouter = express.Router();  // is like a mini-express application
+var Promo = require('../models/promotions');
+
+var promoRouter = express.Router();
 promoRouter.use(bodyParser.json());
 
 promoRouter.route('/')
-.all(function(req, res, next) {
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      next();
-})
 
 .get(function(req, res, next) {
-        res.end('Will send all the promo to you!');
+    Promo.find({}, function (err, promo) {
+        if (err) throw err;
+
+        res.json(promo);
+    });
 })
 
 .post(function(req, res, next) {
-    res.end('Will add the promo: ' + req.body.name + ' with details: ' +
-    req.body.description);
+    Promo.create(req.body, function (err, promo) {
+        if (err) throw err;
+
+        console.log('Promo created');
+        var id = dish._id;
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        });
+
+        res.end(`Added the promotion wit id ${id}`);
+    });
 })
 
 .delete(function(req, res, next) {
-        res.end('Deleting all promo');
+    Promo.remove({}, function (err, resp) {
+        if (err) throw err;
+
+        res.json(resp);
+    });
 });
 
 
-promoRouter.route('/:dishId')
-.all(function(req,res,next) {
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      next();
-})
+promoRouter.route('/:promoId')
 
-.get(function(req,res,next) {
-        res.end('Will send details of the promo: ' + req.params.dishId
-        +' to you!');
+.get(function(req, res, next) {
+    Promo.findById(req.params.promoId, function (err, promo) {
+        if (err) throw err;
+
+        res.json(promo);
+    });
 })
 
 .put(function(req, res, next) {
-        res.write('Updating the promo: ' + req.params.dishId + '\n');
-        res.end('Will update the promo: ' + req.body.name +
-            ' with details: ' + req.body.description);
+    Promo.findByIdAndUpdate(req.params.promoId, {
+        $set: req.body
+    }, {
+        new: true
+    }, function (err, promo) {
+        if(err) throw err;
+
+        res.json(promo);
+    });
 })
 
 .delete(function(req, res, next) {
-        res.end('Deleting promo: ' + req.params.dishId);
+    Promo.findByIdAndRemove(req.params.promoId, function (err, resp) {
+        if (err) throw err;
+
+        res.json(resp);
+    });
 });
 
 
