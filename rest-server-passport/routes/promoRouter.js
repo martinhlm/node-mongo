@@ -17,7 +17,7 @@ promoRouter.route('/')
     });
 })
 
-.post(function(req, res, next) {
+.post(Verify.verifyAdmin, function(req, res, next) {
     Promo.create(req.body, function (err, promo) {
         if (err) throw err;
 
@@ -31,7 +31,7 @@ promoRouter.route('/')
     });
 })
 
-.delete(function(req, res, next) {
+.delete(Verify.verifyAdmin, function(req, res, next) {
     Promo.remove({}, function (err, resp) {
         if (err) throw err;
 
@@ -50,7 +50,7 @@ promoRouter.route('/:promoId')
     });
 })
 
-.put(function(req, res, next) {
+.put(Verify.verifyAdmin, function(req, res, next) {
     Promo.findByIdAndUpdate(req.params.promoId, {
         $set: req.body
     }, {
@@ -62,7 +62,7 @@ promoRouter.route('/:promoId')
     });
 })
 
-.delete(function(req, res, next) {
+.delete(Verify.verifyAdmin, function(req, res, next) {
     Promo.findByIdAndRemove(req.params.promoId, function (err, resp) {
         if (err) throw err;
 

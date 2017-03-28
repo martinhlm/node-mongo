@@ -17,7 +17,7 @@ leaderRouter.route('/')
     });
 })
 
-.post(function(req, res, next) {
+.post(Verify.verifyAdmin, function(req, res, next) {
     Leader.create(req.body, function (err, leader) {
         if (err) throw err;
 
@@ -31,7 +31,7 @@ leaderRouter.route('/')
     });
 })
 
-.delete(function(req, res, next) {
+.delete(Verify.verifyAdmin, function(req, res, next) {
     Leader.remove({}, function (err, resp) {
         if (err) throw err;
 
@@ -50,7 +50,7 @@ leaderRouter.route('/:leaderId')
     });
 })
 
-.put(function(req, res, next) {
+.put(Verify.verifyAdmin, function(req, res, next) {
     Leader.findByIdAndUpdate(req.params.leaderId, {
         $set: req.body
     }, {
@@ -62,7 +62,7 @@ leaderRouter.route('/:leaderId')
     });
 })
 
-.delete(function(req, res, next) {
+.delete(Verify.verifyAdmin, function(req, res, next) {
     Leader.findByIdAndRemove(req.params.leaderId, function (err, resp) {
         if (err) throw err;
 
